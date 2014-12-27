@@ -3,9 +3,9 @@ package com.example.android.sunshine.app.ui.main;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +20,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOG_TAG, "in onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
@@ -45,13 +46,13 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if(id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(settingsIntent);
             return true;
         }
 
-        if(id == R.id.action_map){
+        if (id == R.id.action_map) {
             openPreferredLocationInMap();
             return true;
         }
@@ -70,10 +71,45 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(geoLocation);
 
-        if(intent.resolveActivity(getPackageManager())!=null){
+        if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
-        }else{
-            Log.d(LOG_TAG, "Couldn't call " + location);
+        } else {
+            Log.d(LOG_TAG, "Couldn't call " + location + ", no receiving apps installed!");
         }
+    }
+
+    @Override
+    protected void onStart() {
+        Log.v(LOG_TAG, "in onStart");
+        super.onStart();
+        // The activity is about to become visible.
+    }
+
+    @Override
+    protected void onResume() {
+        Log.v(LOG_TAG, "in onResume");
+        super.onResume();
+        // The activity has become visible (it is now "resumed").
+    }
+
+    @Override
+    protected void onPause() {
+        Log.v(LOG_TAG, "in onPause");
+        super.onPause();
+        // Another activity is taking focus (this activity is about to be "paused").
+    }
+
+    @Override
+    protected void onStop() {
+        Log.v(LOG_TAG, "in onStop");
+        super.onStop();
+        // The activity is no longer visible (it is now "stopped")
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.v(LOG_TAG, "in onDestroy");
+        super.onDestroy();
+        // The activity is about to be destroyed.
     }
 }
