@@ -1,10 +1,15 @@
 package com.example.android.sunshine.app.model;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.data.WeatherDataParser;
 
 import org.json.JSONException;
@@ -23,11 +28,17 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
     private final String location;
     private final ArrayAdapter<String> adapter;
     private final String temperatureUnit;
+    private final Context context;
 
-    public FetchWeatherTask(String location, ArrayAdapter<String> adapter, String temperatureUnit) {
+    public FetchWeatherTask(Context context, String location, ArrayAdapter<String> adapter, String temperatureUnit) {
+        this.context = context;
         this.location = location;
         this.adapter = adapter;
         this.temperatureUnit = temperatureUnit;
+    }
+
+    public Context getContext() {
+        return this.context;
     }
 
     @Override
@@ -52,12 +63,14 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Error", e);
         }
+
         String dataJson = getForecastJson(url);
         try {
-            String[] data = WeatherDataParser.getWeatherDataFromJson(
+            return WeatherDataParser.getWeatherDataFromJson(
                     dataJson,
-                    this.temperatureUnit);
-            return data;
+                    this.temperatureUnit,
+                    this.location,
+                    this);
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Parsing json error", e);
             return new String[0];
@@ -69,6 +82,46 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
         if (results != null) {
             this.adapter.clear();
             this.adapter.addAll(Arrays.asList(results));
+        }
+    }
+
+    /**
+     * Helper method to handle insertion of a new location in the weather database.
+     *
+     * @param locationSetting The location string used to request updates from the server.
+     * @param cityName        A human-readable city name, e.g "Mountain View"
+     * @param lat             the latitude of the city
+     * @param lon             the longitude of the city
+     * @return the row ID of the added location.
+     */
+    public long addLocation(String locationSetting, String cityName, double lat, double lon) {
+
+        Log.v(LOG_TAG, "inserting " + cityName + ", with coord: " + lat + ", " + lon);
+
+        // First, check if the location with this city name exists in the db
+        Cursor cursor = this.context.getContentResolver().query(
+                WeatherContract.LocationEntry.CONTENT_URI,
+                new String[]{WeatherContract.LocationEntry._ID},
+                WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
+                new String[]{locationSetting},
+                null);
+
+        if (cursor.moveToFirst()) {
+            Log.v(LOG_TAG, "Found it in the database!");
+            int locationIdIndex = cursor.getColumnIndex(WeatherContract.LocationEntry._ID);
+            return cursor.getLong(locationIdIndex);
+        } else {
+            Log.v(LOG_TAG, "Didn't find it in the database, inserting now!");
+            ContentValues locationValues = new ContentValues();
+            locationValues.put(WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
+            locationValues.put(WeatherContract.LocationEntry.COLUMN_CITY_NAME, cityName);
+            locationValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LAT, lat);
+            locationValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LONG, lon);
+
+            Uri locationInsertUri = this.context.getContentResolver()
+                    .insert(WeatherContract.LocationEntry.CONTENT_URI, locationValues);
+
+            return ContentUris.parseId(locationInsertUri);
         }
     }
 
@@ -88,7 +141,7 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
             }
 
             reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
                 builder.append('\n');
