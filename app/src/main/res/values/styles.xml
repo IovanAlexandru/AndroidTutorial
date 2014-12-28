@@ -5,4 +5,6 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <color name="sky_blue">#FF1CA8F4</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>

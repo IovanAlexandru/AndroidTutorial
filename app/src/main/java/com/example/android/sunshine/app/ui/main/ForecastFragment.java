@@ -151,7 +151,8 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = forecastAdapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
-                    String dateString = Utility.formatDate(cursor.getString(COL_WEATHER_DATE));
+                    String dbDateString = cursor.getString(COL_WEATHER_DATE);
+                    String dateString = Utility.formatDate(dbDateString);
                     String weatherDescription = cursor.getString(COL_WEATHER_DESC);
 
                     boolean isMetric = Utility.isMetric(getActivity());
@@ -164,7 +165,7 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
                             dateString, weatherDescription, high, low);
 
                     Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .putExtra(Intent.EXTRA_TEXT, detailString);
+                            .putExtra(Intent.EXTRA_TEXT, dbDateString);
                     startActivity(intent);
                 }
             }
