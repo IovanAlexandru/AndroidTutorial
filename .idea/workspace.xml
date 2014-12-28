@@ -37,17 +37,8 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.example.android.sunshine.app" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49917751-02dc-4809-814f-b99cadd90824" name="Default" comment="Implemented a new forecast adapter and some date format utility methods.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/ForecastAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_forecast_today.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/detail/DetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/detail/DetailFragment.java" />
+    <list default="true" id="49917751-02dc-4809-814f-b99cadd90824" name="Default" comment="Implemented a new forecast adapter and some date format utility methods. The forecast adapter is not yet wired to the UI.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/main/ForecastFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/main/ForecastFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/Utility.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/Utility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_forecast.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_forecast.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Sunshine.iws" />
@@ -126,10 +117,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ForecastAdapter.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ForecastAdapter.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/ForecastAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="326" max-vertical-offset="1139">
+            <state vertical-scroll-proportion="-0.17028986" vertical-offset="587" max-vertical-offset="1139">
               <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -140,10 +131,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utility.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Utility.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48731884" vertical-offset="1686" max-vertical-offset="2278">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1686" max-vertical-offset="2278">
               <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -184,10 +175,12 @@
       <file leaf-file-name="ForecastFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/main/ForecastFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2485" max-vertical-offset="3927">
-              <caret line="163" column="27" selection-start-line="163" selection-start-column="27" selection-end-line="163" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2474" max-vertical-offset="3281">
+              <caret line="165" column="0" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#7544#7545#0" expanded="true" />
+                <element signature="e#7592#7593#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -830,9 +823,9 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_forecast_today.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/main/ForecastFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/ForecastAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/Utility.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/main/ForecastFragment.java" />
       </list>
     </option>
   </component>
@@ -1615,12 +1608,16 @@
       <created>1419778256649</created>
       <updated>1419778256649</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Implemented a new forecast adapter and some date format utility methods. The forecast adapter is not yet wired to the UI.">
+      <created>1419794831728</created>
+      <updated>1419794831728</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="960" y="0" width="960" height="1040" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1639,7 +1636,7 @@
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32842582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295583" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27666667" sideWeight="0.49917898" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27666667" sideWeight="0.49917898" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295583" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1675,7 +1672,8 @@
     <MESSAGE value="Added loaders to the application." />
     <MESSAGE value="Loaders are now integrated with te UI" />
     <MESSAGE value="Implemented a new forecast adapter and some date format utility methods." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented a new forecast adapter and some date format utility methods." />
+    <MESSAGE value="Implemented a new forecast adapter and some date format utility methods. The forecast adapter is not yet wired to the UI." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented a new forecast adapter and some date format utility methods. The forecast adapter is not yet wired to the UI." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1764,10 +1762,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="29937">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1419794795917" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1419794795917" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1419794795917" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1419794795917" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1419795057568" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1419795057568" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1419795057568" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1419795057568" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2145,18 +2143,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/ForecastAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="326" max-vertical-offset="1139">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#575#576#0" expanded="true" />
-            <element signature="e#615#616#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/detail/DetailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="411" max-vertical-offset="2839">
@@ -2169,19 +2155,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/main/ForecastFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2485" max-vertical-offset="3927">
-          <caret line="163" column="27" selection-start-line="163" selection-start-column="27" selection-end-line="163" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/Utility.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48731884" vertical-offset="1686" max-vertical-offset="2278">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1686" max-vertical-offset="2278">
           <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -2194,6 +2170,30 @@
             <element signature="method#formatDate#0;class#Utility#0" expanded="false" />
             <element signature="method#getLocationPreferences#0;class#Utility#0" expanded="false" />
             <element signature="method#getPreferredTemperatureUnit#0;class#Utility#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/ui/main/ForecastFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2474" max-vertical-offset="3281">
+          <caret line="165" column="0" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7544#7545#0" expanded="true" />
+            <element signature="e#7592#7593#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/sunshine/app/model/ForecastAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.17028986" vertical-offset="587" max-vertical-offset="1139">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#575#576#0" expanded="true" />
+            <element signature="e#615#616#0" expanded="true" />
           </folding>
         </state>
       </provider>
