@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.data.WeatherDataParser;
@@ -21,19 +20,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 
 public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
     private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
     private final String location;
-    private final ArrayAdapter<String> adapter;
     private final String temperatureUnit;
     private final Context context;
 
-    public FetchWeatherTask(Context context, String location, ArrayAdapter<String> adapter, String temperatureUnit) {
+    public FetchWeatherTask(Context context, String location, String temperatureUnit) {
         this.context = context;
         this.location = location;
-        this.adapter = adapter;
         this.temperatureUnit = temperatureUnit;
     }
 
@@ -74,14 +70,6 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Parsing json error", e);
             return new String[0];
-        }
-    }
-
-    @Override
-    protected void onPostExecute(String[] results) {
-        if (results != null) {
-            this.adapter.clear();
-            this.adapter.addAll(Arrays.asList(results));
         }
     }
 

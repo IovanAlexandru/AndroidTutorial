@@ -19,7 +19,8 @@
     <string name="pref_unit_imperial">imperial</string>
     <string name="pref_unit_metric">metric</string>
     <string name="action_map">Location</string>
-
+    <string name="dashSplit">-</string>
+    <string name="obliqueBarSplit">/</string>
 
 
 </resources>

@@ -19,6 +19,7 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -60,6 +61,22 @@ public class WeatherContract {
         // it must be converted to milliseconds in order to be converted to valid date.
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         return sdf.format(date);
+    }
+
+    /**
+     * Converts a dateText to a long Unix time representation
+     *
+     * @param dateText the input date string
+     * @return the Date object
+     */
+    public static Date getDateFromDb(String dateText) {
+        SimpleDateFormat dbDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        try {
+            return dbDateFormat.parse(dateText);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /* Inner class that defines the table contents of the location table */
@@ -116,8 +133,6 @@ public class WeatherContract {
         public static final String COLUMN_HUMIDITY = "humidity";
         // Humidity is stored as a float representing percentage
         public static final String COLUMN_PRESSURE = "pressure";
-        public static final String CONTENT_TYPE =
-                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_WEATHER;
         // Windspeed is stored as a float representing windspeed  mph
         public static final String COLUMN_WIND_SPEED = "wind";
         // Degrees are meteorological degrees (e.g, 0 is north, 180 is south).  Stored as floats.
@@ -145,6 +160,9 @@ public class WeatherContract {
             return uri.getPathSegments().get(1);
         }
 
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_WEATHER;
+
         public static String getDateFromUri(Uri uri) {
             return uri.getPathSegments().get(2);
         }
@@ -152,6 +170,7 @@ public class WeatherContract {
         public static String getStartDateFromUri(Uri uri) {
             return uri.getQueryParameter(COLUMN_DATETEXT);
         }
+
 
         public static final String CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_WEATHER;
