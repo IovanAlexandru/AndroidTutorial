@@ -11,23 +11,40 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.sunshine.app.R;
+import com.example.android.sunshine.app.ui.detail.DetailActivity;
+import com.example.android.sunshine.app.ui.detail.DetailFragment;
 import com.example.android.sunshine.app.ui.settings.SettingsActivity;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOG_TAG, "in onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment())
-                    .commit();
+        if (findViewById(R.id.weather_detail_container) != null) {
+            // this will be true only in large-screen layouts
+            // (res/layout-sw600dp). If this view is present, then the activity should
+            // be in two-pane
+            mTwoPane = true;
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.weather_detail_container, new DetailFragment())
+                        .commit();
+            }
+
+            ForecastFragment forecastFragment = (ForecastFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_forecast);
+            forecastFragment.setUseTodayLayout(false);
+        } else {
+            mTwoPane = false;
         }
+
+
     }
 
 
@@ -111,5 +128,27 @@ public class MainActivity extends ActionBarActivity {
         Log.v(LOG_TAG, "in onDestroy");
         super.onDestroy();
         // The activity is about to be destroyed.
+    }
+
+    @Override
+    public void onItemSelected(String date) {
+        if (this.mTwoPane) {
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle args = new Bundle();
+            args.putString(DetailActivity.DATE_KEY, date);
+
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.weather_detail_container, fragment)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, DetailActivity.class)
+                    .putExtra(Intent.EXTRA_TEXT, date);
+            startActivity(intent);
+        }
     }
 }

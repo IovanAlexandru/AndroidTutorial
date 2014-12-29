@@ -4,7 +4,6 @@ package com.example.android.sunshine.app.ui.main;
  * Handles the main view fragment.
  */
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.model.FetchWeatherTask;
 import com.example.android.sunshine.app.model.ForecastAdapter;
 import com.example.android.sunshine.app.model.Utility;
-import com.example.android.sunshine.app.ui.detail.DetailActivity;
 
 import java.util.Date;
 
@@ -42,6 +40,7 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
     public static final int COL_WEATHER_MAX_TEMP = 3;
     public static final int COL_WEATHER_MIN_TEMP = 4;
     public static final int COL_LOCATION_SETTING = 5;
+    public static final String USE_TODAY_LAYOUT_KEY = "USE_TODAY_LAYOUT_KEY";
     private static final int FORECAST_LOADER = 0;
     // In this case the id needs to be fully qualified with a table name, since
     // the content provider joins the location & weather tables in the background
@@ -61,12 +60,34 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
             WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
             WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
             WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
-            WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING
+            WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID
     };
-
+    private static final String SELECTED_KEY = "POSITION_LIST_SELECTED_KEY";
+    private ListView mListView;
+    private boolean mUseTodayLayout = true;
     private ForecastAdapter forecastAdapter;
+    private int mPosition;
 
     public ForecastFragment() {
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // When tables rotate, the currently selected list item need to be saved.
+        // When no item is selected, mPosition will be set to ListView.INVALID_POSITION.
+        // so check for that before storing;
+        if (mPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, mPosition);
+        }
+
+        outState.putBoolean(ForecastFragment.USE_TODAY_LAYOUT_KEY, mUseTodayLayout);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    public void setUseTodayLayout(boolean value) {
+        this.mUseTodayLayout = value;
     }
 
     @Override
@@ -100,33 +121,29 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(forecastAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        mListView.setAdapter(forecastAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = forecastAdapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
-                    String dbDateString = cursor.getString(COL_WEATHER_DATE);
-                    String dateString = Utility.formatDate(dbDateString);
-                    String weatherDescription = cursor.getString(COL_WEATHER_DESC);
-
-                    boolean isMetric = Utility.isMetric(getActivity());
-                    String high = Utility.formatTemperature(
-                            cursor.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
-                    String low = Utility.formatTemperature(
-                            cursor.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
-
-                    String detailString = String.format("%s - %s - %s/%s",
-                            dateString, weatherDescription, high, low);
-
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .putExtra(Intent.EXTRA_TEXT, dbDateString);
-                    startActivity(intent);
+                    ((Callback) getActivity()).onItemSelected(cursor.getString(COL_WEATHER_DATE));
                 }
+
+                mPosition = position;
             }
         });
+
+        // If there's instance state, mine it for useful information.
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(ForecastFragment.USE_TODAY_LAYOUT_KEY)) {
+            mUseTodayLayout = savedInstanceState.getBoolean(ForecastFragment.USE_TODAY_LAYOUT_KEY);
+        }
 
         return rootView;
     }
@@ -153,6 +170,7 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        forecastAdapter.setUseTodayLayout(this.mUseTodayLayout);
         // This is called when a new Loader needs to be created.  This
         // fragment only uses one loader, so we don't care about checking the id.
 
@@ -183,10 +201,25 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         forecastAdapter.swapCursor(data);
+        if (mPosition != ListView.INVALID_POSITION) {
+            mListView.setSelection(mPosition);
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         forecastAdapter.swapCursor(null);
+    }
+
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections.
+     */
+    public interface Callback {
+        /**
+         * Callback for when an item has been selected.
+         */
+        public void onItemSelected(String date);
     }
 }

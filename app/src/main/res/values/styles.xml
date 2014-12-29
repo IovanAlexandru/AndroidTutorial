@@ -5,6 +5,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ForecastListStyle">
+        <!--
+        This is a stub. This should be used for two-pane layout.
+        -->
+    </style>
+
+    <color name="grey">#cccccc</color>
     <color name="sky_blue">#FF1CA8F4</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

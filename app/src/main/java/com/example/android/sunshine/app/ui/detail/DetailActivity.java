@@ -10,6 +10,7 @@ import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.ui.settings.SettingsActivity;
 
 public class DetailActivity extends ActionBarActivity {
+    public static final String DATE_KEY = "DETAIL_ACTIVITY_KEY";
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
     @Override
@@ -17,8 +18,15 @@ public class DetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
+            String date = getIntent().getStringExtra(DATE_KEY);
+            Bundle arguments = new Bundle();
+            arguments.putString(DetailActivity.DATE_KEY, date);
+
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(arguments);
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DetailFragment())
+                    .add(R.id.weather_detail_container, fragment)
                     .commit();
         }
     }
@@ -38,7 +46,7 @@ public class DetailActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if(id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(settingsIntent);
             return true;

@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:background="#ff1ca8f4"
-    android:backgroundTint="@color/sky_blue"
+    android:background="@drawable/touch_selector"
     android:minHeight="?android:listPreferredItemHeight"
     android:orientation="horizontal"
     android:padding="16dp">
@@ -51,8 +50,7 @@
         <ImageView
             android:id="@+id/list_item_icon"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_launcher" />
+            android:layout_height="100dp" />
 
         <TextView
             android:id="@id/list_item_forecast_textView"
