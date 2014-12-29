@@ -54,7 +54,6 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
 
         URL url = null;
         try {
-            Log.d(LOG_TAG, "Build uri: " + builtUri.toString());
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Error", e);
@@ -84,8 +83,6 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
      */
     public long addLocation(String locationSetting, String cityName, double lat, double lon) {
 
-        Log.v(LOG_TAG, "inserting " + cityName + ", with coord: " + lat + ", " + lon);
-
         // First, check if the location with this city name exists in the db
         Cursor cursor = this.context.getContentResolver().query(
                 WeatherContract.LocationEntry.CONTENT_URI,
@@ -95,11 +92,9 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
                 null);
 
         if (cursor.moveToFirst()) {
-            Log.v(LOG_TAG, "Found it in the database!");
             int locationIdIndex = cursor.getColumnIndex(WeatherContract.LocationEntry._ID);
             return cursor.getLong(locationIdIndex);
         } else {
-            Log.v(LOG_TAG, "Didn't find it in the database, inserting now!");
             ContentValues locationValues = new ContentValues();
             locationValues.put(WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
             locationValues.put(WeatherContract.LocationEntry.COLUMN_CITY_NAME, cityName);
@@ -156,7 +151,6 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
             }
         }
 
-        Log.d(LOG_TAG, forecastJson);
         return forecastJson;
     }
 }

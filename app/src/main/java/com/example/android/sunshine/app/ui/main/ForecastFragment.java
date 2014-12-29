@@ -34,12 +34,10 @@ import java.util.Date;
 public class ForecastFragment extends Fragment implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
-    public static final int COL_WEATHER_ID = 0;
     public static final int COL_WEATHER_DATE = 1;
     public static final int COL_WEATHER_DESC = 2;
     public static final int COL_WEATHER_MAX_TEMP = 3;
     public static final int COL_WEATHER_MIN_TEMP = 4;
-    public static final int COL_LOCATION_SETTING = 5;
     public static final String USE_TODAY_LAYOUT_KEY = "USE_TODAY_LAYOUT_KEY";
     private static final int FORECAST_LOADER = 0;
     // In this case the id needs to be fully qualified with a table name, since
@@ -115,7 +113,6 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         forecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -170,7 +167,6 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        forecastAdapter.setUseTodayLayout(this.mUseTodayLayout);
         // This is called when a new Loader needs to be created.  This
         // fragment only uses one loader, so we don't care about checking the id.
 
@@ -200,7 +196,9 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        forecastAdapter.setUseTodayLayout(this.mUseTodayLayout);
         forecastAdapter.swapCursor(data);
+
         if (mPosition != ListView.INVALID_POSITION) {
             mListView.setSelection(mPosition);
         }

@@ -1,9 +1,6 @@
 package com.example.android.sunshine.app.data;
 
 import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.util.Log;
 
 import com.example.android.sunshine.app.model.FetchWeatherTask;
 
@@ -19,9 +16,6 @@ import java.util.Vector;
  * This class helps at parsing Json data.
  */
 public class WeatherDataParser {
-    private static final String LOG_TAG = WeatherDataParser.class.getSimpleName();
-    private static boolean DEBUGGING = true;
-
     public static String getReadableDateString(long time) {
         Date date = new Date(time * 1000);
         SimpleDateFormat format = new SimpleDateFormat("E, MMM d");
@@ -41,6 +35,10 @@ public class WeatherDataParser {
     }
 
     public static String[] getWeatherDataFromJson(String weatherJsonStr, String unitType, String location, FetchWeatherTask fetchWeatherTask) throws JSONException {
+        if (weatherJsonStr == null || "".equals(weatherJsonStr)) {
+            return new String[0];
+        }
+
         final String OWM_CITY = "city";
         final String OWM_CITY_NAME = "name";
         final String OWM_COORD = "coord";
@@ -67,8 +65,6 @@ public class WeatherDataParser {
         JSONObject coordJson = cityJson.getJSONObject(OWM_COORD);
         double cityLatitude = coordJson.getLong(OWM_COORD_LAT);
         double cityLongitude = coordJson.getLong(OWM_COORD_LONG);
-
-        Log.v(LOG_TAG, cityName + ", with coord: " + cityLatitude + " " + cityLongitude);
 
         long locationId = fetchWeatherTask.addLocation(location, cityName, cityLatitude, cityLongitude);
 
@@ -122,37 +118,13 @@ public class WeatherDataParser {
         if (cVVector.size() > 0) {
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
-            int rowsInserted = fetchWeatherTask
+            fetchWeatherTask
                     .getContext()
                     .getContentResolver()
                     .bulkInsert(
                             WeatherContract.WeatherEntry.CONTENT_URI,
                             cvArray
                     );
-            Log.v(LOG_TAG, "inserted " + rowsInserted + " rows of weather data");
-
-            if (DEBUGGING) {
-                Cursor weatherCursor = fetchWeatherTask.getContext()
-                        .getContentResolver()
-                        .query(
-                                WeatherContract.WeatherEntry.CONTENT_URI,
-                                null,
-                                null,
-                                null,
-                                null
-                        );
-
-                if (weatherCursor.moveToFirst()) {
-                    ContentValues resultValues = new ContentValues();
-                    DatabaseUtils.cursorRowToContentValues(weatherCursor, resultValues);
-                    Log.v(LOG_TAG, "Query suceeded! ***********");
-                    for (String key : resultValues.keySet()) {
-                        Log.v(LOG_TAG, key + ": " + resultValues.getAsString(key));
-                    }
-                } else {
-                    Log.v(LOG_TAG, "Query failerd :( ********)");
-                }
-            }
         }
 
         return resultStrs;

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,11 +27,8 @@ import com.example.android.sunshine.app.model.Utility;
  * A placeholder fragment containing a simple view.
  */
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-
     private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
 
-    private static final String LOCATION_KEY = "location";
     private static final int DETAILS_LOADER = 0;
     // In this case the id needs to be fully qualified with a table name, since
     // the content provider joins the location & weather tables in the background
@@ -76,8 +72,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.v(LOG_TAG, "onCreatView called");
-
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         Bundle arguments = getArguments();
@@ -104,7 +98,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.v(LOG_TAG, "onActivityCreated called");
         if (this.dateString != null) {
             getLoaderManager().initLoader(DETAILS_LOADER, null, this);
         }

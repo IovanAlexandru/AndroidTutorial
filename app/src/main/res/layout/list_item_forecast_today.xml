@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:background="@drawable/touch_selector"
+    android:background="@color/sky_blue"
     android:minHeight="?android:listPreferredItemHeight"
     android:orientation="horizontal"
     android:padding="16dp">
@@ -20,15 +20,13 @@
             android:id="@+id/list_item_date_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today, June 18"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/list_item_high_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="22º"
             android:textColor="@color/white"
             android:textSize="72sp" />
 
@@ -36,7 +34,6 @@
             android:id="@+id/list_item_low_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12º"
             android:textColor="@color/white"
             android:textSize="36sp" />
     </LinearLayout>
@@ -56,8 +53,8 @@
             android:id="@id/list_item_forecast_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

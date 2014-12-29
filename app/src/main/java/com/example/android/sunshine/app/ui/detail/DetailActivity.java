@@ -11,14 +11,13 @@ import com.example.android.sunshine.app.ui.settings.SettingsActivity;
 
 public class DetailActivity extends ActionBarActivity {
     public static final String DATE_KEY = "DETAIL_ACTIVITY_KEY";
-    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
-            String date = getIntent().getStringExtra(DATE_KEY);
+            String date = getIntent().getStringExtra(Intent.EXTRA_TEXT);
             Bundle arguments = new Bundle();
             arguments.putString(DetailActivity.DATE_KEY, date);
 
