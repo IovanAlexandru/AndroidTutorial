@@ -1,8 +1,7 @@
 package com.example.android.sunshine.app.data;
 
 import android.content.ContentValues;
-
-import com.example.android.sunshine.app.model.FetchWeatherTask;
+import android.content.Context;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +33,7 @@ public class WeatherDataParser {
         return roundedHigh + "/" + roundedLow;
     }
 
-    public static String[] getWeatherDataFromJson(String weatherJsonStr, String unitType, String location, FetchWeatherTask fetchWeatherTask) throws JSONException {
+    public static String[] getWeatherDataFromJson(String weatherJsonStr, String unitType, String location, LocationHandler locationHandler, Context context) throws JSONException {
         if (weatherJsonStr == null || "".equals(weatherJsonStr)) {
             return new String[0];
         }
@@ -66,7 +65,7 @@ public class WeatherDataParser {
         double cityLatitude = coordJson.getLong(OWM_COORD_LAT);
         double cityLongitude = coordJson.getLong(OWM_COORD_LONG);
 
-        long locationId = fetchWeatherTask.addLocation(location, cityName, cityLatitude, cityLongitude);
+        long locationId = locationHandler.addLocation(location, cityName, cityLatitude, cityLongitude);
 
         // Get and insert the new weather information into the database
         Vector<ContentValues> cVVector = new Vector<>(weatherArray.length());
@@ -118,9 +117,7 @@ public class WeatherDataParser {
         if (cVVector.size() > 0) {
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
-            fetchWeatherTask
-                    .getContext()
-                    .getContentResolver()
+            context.getContentResolver()
                     .bulkInsert(
                             WeatherContract.WeatherEntry.CONTENT_URI,
                             cvArray
@@ -128,5 +125,9 @@ public class WeatherDataParser {
         }
 
         return resultStrs;
+    }
+
+    public interface LocationHandler {
+        long addLocation(String locationSetting, String cityName, double lat, double lon);
     }
 }

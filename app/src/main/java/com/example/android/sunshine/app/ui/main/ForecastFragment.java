@@ -4,6 +4,7 @@ package com.example.android.sunshine.app.ui.main;
  * Handles the main view fragment.
  */
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,9 +23,9 @@ import android.widget.ListView;
 
 import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.data.WeatherContract;
-import com.example.android.sunshine.app.model.FetchWeatherTask;
 import com.example.android.sunshine.app.model.ForecastAdapter;
 import com.example.android.sunshine.app.model.Utility;
+import com.example.android.sunshine.app.service.SunshineService;
 
 import java.util.Date;
 
@@ -152,17 +153,16 @@ public class ForecastFragment extends Fragment implements android.support.v4.app
     }
 
     private void updateWeather() {
-        FetchWeatherTask weatherTask = new FetchWeatherTask(
-                getActivity().getApplicationContext(),
-                Utility.getLocationPreferences(getActivity()),
-                Utility.getPreferredTemperatureUnit(getActivity()));
-        weatherTask.execute();
+        Intent intent = new Intent(getActivity(), SunshineService.class);
+        intent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, Utility.getLocationPreferences(getActivity()));
+        intent.putExtra(SunshineService.TEMPERATURE_QUERY_EXTRA, Utility.getPreferredTemperatureUnit(getActivity()));
+        getActivity().startService(intent);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        updateWeather();
+        //updateWeather();
     }
 
     @Override

@@ -1,14 +1,17 @@
-package com.example.android.sunshine.app.model;
+package com.example.android.sunshine.app.service;
 
+import android.app.IntentService;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.android.sunshine.app.data.WeatherContract;
+import com.example.android.sunshine.app.data.WeatherDataParser;
+
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,24 +21,27 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
-    private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
-    private final String location;
-    private final String temperatureUnit;
-    private final Context context;
+/**
+ * Service that fetches weather data.
+ */
+public class SunshineService extends IntentService implements WeatherDataParser.LocationHandler {
+    public static final String LOCATION_QUERY_EXTRA = "lqe";
+    public static final String TEMPERATURE_QUERY_EXTRA = "tqe";
+    private final String LOG_TAG = SunshineService.class.getSimpleName();
 
-    public FetchWeatherTask(Context context, String location, String temperatureUnit) {
-        this.context = context;
-        this.location = location;
-        this.temperatureUnit = temperatureUnit;
+    public SunshineService() {
+        super("SunshineService");
     }
 
-    public Context getContext() {
-        return this.context;
+    public SunshineService(String name) {
+        super(name);
     }
 
     @Override
-    protected String[] doInBackground(Void... params) {
+    protected void onHandleIntent(Intent intent) {
+        String location = intent.getStringExtra(LOCATION_QUERY_EXTRA);
+        String temperatureUnit = intent.getStringExtra(TEMPERATURE_QUERY_EXTRA);
+
         final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
         final String QUERY_PARAM = "q";
         final String FORMAT_PARAM = "mode";
@@ -56,21 +62,18 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
             Log.e(LOG_TAG, "Error", e);
         }
 
-        /*
         String dataJson = getForecastJson(url);
         try {
-            return WeatherDataParser.getWeatherDataFromJson(
+            WeatherDataParser.getWeatherDataFromJson(
                     dataJson,
-                    this.temperatureUnit,
-                    this.location,
+                    temperatureUnit,
+                    location,
+                    this,
                     this);
-            return null;
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Parsing json error", e);
-            return new String[0];
+            return;
         }
-        */
-        return new String[0];
     }
 
     /**
@@ -85,7 +88,7 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
     public long addLocation(String locationSetting, String cityName, double lat, double lon) {
 
         // First, check if the location with this city name exists in the db
-        Cursor cursor = this.context.getContentResolver().query(
+        Cursor cursor = getContentResolver().query(
                 WeatherContract.LocationEntry.CONTENT_URI,
                 new String[]{WeatherContract.LocationEntry._ID},
                 WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
@@ -102,7 +105,7 @@ public class FetchWeatherTask extends AsyncTask<Void, Void, String[]> {
             locationValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LAT, lat);
             locationValues.put(WeatherContract.LocationEntry.COLUMN_COORD_LONG, lon);
 
-            Uri locationInsertUri = this.context.getContentResolver()
+            Uri locationInsertUri = getContentResolver()
                     .insert(WeatherContract.LocationEntry.CONTENT_URI, locationValues);
 
             return ContentUris.parseId(locationInsertUri);
